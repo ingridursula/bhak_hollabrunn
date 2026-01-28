@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grundlagen - Coding Workshop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Coding Workshop</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Start</a></li>
+                <li><a href="grundlagen.html" class="active">Grundlagen</a></li>
+                <li><a href="beispiele.html">Beispiele</a></li>
+                <li><a href="ressourcen.html">Ressourcen</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Grundlagen der Webentwicklung</h1>
+            <p class="lead">Die wichtigsten Konzepte und Begriffe verstehen</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Was ist Coding?</h2>
+            <p>Coding (oder Programmieren) bedeutet, einem Computer präzise Anweisungen zu geben, damit er bestimmte Aufgaben ausführt. Es ist wie das Schreiben eines sehr detaillierten Rezepts.</p>
+            
+            <div class="highlight-box">
+                <h3>Beispiel</h3>
+                <p>Stell dir vor, du musst einem Roboter erklären, wie man ein Sandwich macht. Du müsstest jeden einzelnen Schritt genau aufschreiben: "Nimm das Brot", "Öffne das Glas", "Nimm das Messer" usw. Beim Programmieren ist es ähnlich - wir müssen dem Computer jeden Schritt erklären.</p>
+            </div>
+
+            <div class="comparison">
+                <div class="comparison-item">
+                    <h4>Markup (HTML/CSS)</h4>
+                    <p>Beschreibt, wie Inhalte strukturiert und dargestellt werden</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>Programmierung (JavaScript)</h4>
+                    <p>Steuert das Verhalten und reagiert auf Benutzeraktionen</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Die drei Säulen einer Website</h2>
+            <p>Jede moderne Website besteht aus drei Hauptkomponenten, die zusammenarbeiten:</p>
+            
+            <div class="pillars">
+                <div class="pillar pillar-html">
+                    <h3>HTML</h3>
+                    <p class="pillar-subtitle">Die Struktur</p>
+                    <p>HTML (HyperText Markup Language) ist das Grundgerüst. Es definiert, welche Elemente auf der Seite vorhanden sind.</p>
+                    
+                    <h4>Wichtige HTML-Elemente:</h4>
+                    <ul>
+                        <li><code>&lt;h1&gt;</code> bis <code>&lt;h6&gt;</code> - Überschriften</li>
+                        <li><code>&lt;p&gt;</code> - Absätze (Paragraphs)</li>
+                        <li><code>&lt;div&gt;</code> - Container für andere Elemente</li>
+                        <li><code>&lt;button&gt;</code> - Schaltflächen</li>
+                        <li><code>&lt;img&gt;</code> - Bilder</li>
+                        <li><code>&lt;a&gt;</code> - Links</li>
+                    </ul>
+                    
+                    <div class="code-example">
+                        <p class="code-label">Beispiel:</p>
+                        <pre>&lt;h1&gt;Willkommen&lt;/h1&gt;
+&lt;p&gt;Das ist ein Absatz.&lt;/p&gt;
+&lt;button&gt;Klick mich&lt;/button&gt;</pre>
+                    </div>
+                </div>
+
+                <div class="pillar pillar-css">
+                    <h3>CSS</h3>
+                    <p class="pillar-subtitle">Das Design</p>
+                    <p>CSS (Cascading Style Sheets) gestaltet die Website. Es bestimmt Farben, Schriften, Abstände und das gesamte Aussehen.</p>
+                    
+                    <h4>Wichtige CSS-Eigenschaften:</h4>
+                    <ul>
+                        <li><code>color</code> - Textfarbe</li>
+                        <li><code>background</code> - Hintergrundfarbe</li>
+                        <li><code>font-size</code> - Schriftgröße</li>
+                        <li><code>padding</code> - Innenabstand</li>
+                        <li><code>margin</code> - Außenabstand</li>
+                        <li><code>border</code> - Rahmen</li>
+                    </ul>
+                    
+                    <div class="code-example">
+                        <p class="code-label">Beispiel:</p>
+                        <pre>h1 {
+    color: blue;
+    font-size: 32px;
+}</pre>
+                    </div>
+                </div>
+
+                <div class="pillar pillar-js">
+                    <h3>JavaScript</h3>
+                    <p class="pillar-subtitle">Das Verhalten</p>
+                    <p>JavaScript macht Websites interaktiv. Es kann auf Benutzeraktionen reagieren, Berechnungen durchführen und Inhalte dynamisch ändern.</p>
+                    
+                    <h4>Wichtige JavaScript-Konzepte:</h4>
+                    <ul>
+                        <li>Variablen - Daten speichern</li>
+                        <li>Funktionen - Code wiederverwenden</li>
+                        <li>Events - Auf Aktionen reagieren</li>
+                        <li>Bedingungen - Entscheidungen treffen</li>
+                        <li>Schleifen - Wiederholungen</li>
+                    </ul>
+                    
+                    <div class="code-example">
+                        <p class="code-label">Beispiel:</p>
+                        <pre>function sayHello() {
+    alert('Hallo Welt!');
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Wichtige Begriffe</h2>
+            
+            <div class="terms-grid">
+                <div class="term-card">
+                    <h3>Tag</h3>
+                    <p>Ein HTML-Befehl in spitzen Klammern</p>
+                    <code>&lt;p&gt;, &lt;div&gt;, &lt;button&gt;</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Element</h3>
+                    <p>Ein vollständiger HTML-Baustein mit öffnendem und schließendem Tag</p>
+                    <code>&lt;p&gt;Text hier&lt;/p&gt;</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Attribut</h3>
+                    <p>Zusätzliche Information für ein Element</p>
+                    <code>&lt;div class="container"&gt;</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Selektor</h3>
+                    <p>CSS-Adresse, um Elemente anzusprechen</p>
+                    <code>.container { ... }</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Eigenschaft</h3>
+                    <p>Eine CSS-Styling-Regel</p>
+                    <code>color: red;</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Funktion</h3>
+                    <p>Wiederverwendbarer JavaScript-Code</p>
+                    <code>function name() { ... }</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Variable</h3>
+                    <p>Ein Speicherplatz für Daten</p>
+                    <code>let name = "Max";</code>
+                </div>
+                
+                <div class="term-card">
+                    <h3>Event</h3>
+                    <p>Eine Benutzeraktion wie Klicken</p>
+                    <code>onclick="..."</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Entwicklungsumgebung</h2>
+            <p>Um selbst Websites zu erstellen, brauchst du nur zwei Dinge:</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>1. Browser</h3>
+                    <p>Zum Anzeigen und Testen deiner Website</p>
+                    <ul>
+                        <li>Google Chrome</li>
+                        <li>Mozilla Firefox</li>
+                        <li>Microsoft Edge</li>
+                        <li>Safari</li>
+                    </ul>
+                    <div class="tool-tip">
+                        <strong>Tipp:</strong> Die meisten Browser haben eingebaute Entwicklertools (F12).
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>2. Texteditor</h3>
+                    <p>Zum Schreiben deines Codes</p>
+                    <ul>
+                        <li>Visual Studio Code (empfohlen)</li>
+                        <li>Sublime Text</li>
+                        <li>Notepad++</li>
+                        <li>Atom</li>
+                    </ul>
+                    <div class="tool-tip">
+                        <strong>Tipp:</strong> VS Code ist kostenlos und sehr beliebt bei Entwicklern.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Alternative: Online-Editoren</h3>
+                <p>Wenn du nichts installieren möchtest, kannst du auch Online-Tools verwenden wie CodePen.io, JSFiddle.net oder Replit.com. Diese funktionieren direkt im Browser.</p>
+            </div>
+        </section>
+
+        <section class="content-section cta-section">
+            <h2>Bereit für Beispiele?</h2>
+            <p>Jetzt wo du die Grundlagen kennst, schauen wir uns konkrete Code-Beispiele an.</p>
+            <a href="beispiele.html" class="btn btn-primary">Zu den Beispielen</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Coding Workshop - Handelsakademie</p>
+        </div>
+    </footer>
+</body>
+</html>

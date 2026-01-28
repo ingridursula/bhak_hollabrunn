@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beispiele - Coding Workshop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Coding Workshop</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Start</a></li>
+                <li><a href="grundlagen.html">Grundlagen</a></li>
+                <li><a href="beispiele.html" class="active">Beispiele</a></li>
+                <li><a href="ressourcen.html">Ressourcen</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Code-Beispiele</h1>
+            <p class="lead">Praktische Demos zum Ausprobieren und Verstehen</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Einfache Beispiele</h2>
+            <p>Diese Beispiele sind perfekt für den Einstieg. Sie zeigen grundlegende Konzepte, die leicht zu verstehen sind.</p>
+            
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 1: Visitenkarte</h3>
+                    <span class="difficulty difficulty-easy">Sehr einfach</span>
+                </div>
+                <p class="example-description">Eine digitale Visitenkarte mit Name, Kontaktdaten und Design. Perfekt um HTML-Struktur und CSS-Styling zu lernen.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>HTML-Grundstruktur (div, h1, p)</li>
+                        <li>CSS-Layout (Flexbox, Zentrierung)</li>
+                        <li>Farbverläufe (linear-gradient)</li>
+                        <li>Hover-Effekte</li>
+                        <li>Box-Shadow für Tiefe</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>&lt;div class="card"&gt;
+    &lt;h1&gt;Max Mustermann&lt;/h1&gt;
+    &lt;p class="job-title"&gt;Web-Entwickler&lt;/p&gt;
+    &lt;p&gt;max@beispiel.at&lt;/p&gt;
+&lt;/div&gt;</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Ändere die Farben</li>
+                        <li>Füge ein Foto hinzu</li>
+                        <li>Ändere Schriftarten</li>
+                        <li>Füge Social-Media-Links hinzu</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 2: Button-Sammlung</h3>
+                    <span class="difficulty difficulty-easy">Sehr einfach</span>
+                </div>
+                <p class="example-description">Verschiedene Button-Designs mit unterschiedlichen Hover-Effekten. Zeigt die Vielfalt von CSS.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>CSS-Transitions (sanfte Übergänge)</li>
+                        <li>Hover-States (:hover)</li>
+                        <li>Transform (verschieben, skalieren, drehen)</li>
+                        <li>Box-Shadow und Glow-Effekte</li>
+                        <li>Border und border-radius</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>.btn-classic {
+    background: #3498db;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-classic:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Erstelle deinen eigenen Button-Style</li>
+                        <li>Ändere die Animations-Geschwindigkeit</li>
+                        <li>Probiere verschiedene Transform-Effekte aus</li>
+                        <li>Kombiniere mehrere Effekte</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Mittlere Beispiele</h2>
+            <p>Diese Beispiele kombinieren HTML, CSS und JavaScript. Sie sind interaktiv und reagieren auf Benutzereingaben.</p>
+            
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 3: Quiz</h3>
+                    <span class="difficulty difficulty-medium">Mittel</span>
+                </div>
+                <p class="example-description">Ein interaktives Quiz mit Multiple-Choice-Fragen. Zeigt JavaScript-Grundlagen und Event-Handling.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>Variablen (let, const)</li>
+                        <li>Funktionen definieren und aufrufen</li>
+                        <li>If/Else-Bedingungen</li>
+                        <li>DOM-Manipulation (classList, textContent)</li>
+                        <li>Event-Handling (onclick)</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>function checkAnswer(element, isCorrect) {
+    if (isCorrect) {
+        element.classList.add('correct');
+        correctAnswers++;
+    } else {
+        element.classList.add('wrong');
+    }
+    showResult();
+}</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Füge neue Fragen hinzu</li>
+                        <li>Ändere das Thema (Sport, Gaming, Filme)</li>
+                        <li>Füge einen Timer hinzu</li>
+                        <li>Erstelle Schwierigkeitsstufen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 4: Zitate-Generator</h3>
+                    <span class="difficulty difficulty-medium">Mittel</span>
+                </div>
+                <p class="example-description">Zeigt zufällige Motivations-Zitate an. Demonstriert Datenstrukturen und Zufallszahlen.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>Arrays (Listen von Daten)</li>
+                        <li>Objekte (strukturierte Daten)</li>
+                        <li>Math.random() für Zufallszahlen</li>
+                        <li>Animations-Übergänge mit Opacity</li>
+                        <li>setTimeout() für Verzögerungen</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>const quotes = [
+    { text: "Glaube an dich...", author: "Unbekannt" },
+    { text: "Der Weg zum Erfolg...", author: "Goethe" }
+];
+
+const randomIndex = Math.floor(Math.random() * quotes.length);
+const quote = quotes[randomIndex];</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Füge eigene Zitate hinzu</li>
+                        <li>Erstelle neue Kategorien</li>
+                        <li>Füge eine Favoriten-Funktion hinzu</li>
+                        <li>Ändere die Animation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Fortgeschrittene Beispiele</h2>
+            <p>Diese Beispiele sind komplexer und beinhalten mehrere Features und fortgeschrittene Konzepte.</p>
+            
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 5: Memory-Spiel</h3>
+                    <span class="difficulty difficulty-hard">Schwer</span>
+                </div>
+                <p class="example-description">Ein vollständiges Memory-Spiel mit Timer, Züge-Zähler und Gewinn-Erkennung.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>Komplexere Array-Manipulation</li>
+                        <li>Spread-Operator (...)</li>
+                        <li>setInterval() für Timer</li>
+                        <li>Mehrere Event-Listener</li>
+                        <li>Spiellogik und Status-Management</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>// Karten erstellen und mischen
+cards = [...emojis, ...emojis];
+cards = cards.sort(() => Math.random() - 0.5);
+
+// Karten vergleichen
+if (cards[first.index] === cards[second.index]) {
+    matchedPairs++;
+}</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Füge mehr Kartenpaare hinzu</li>
+                        <li>Erstelle Schwierigkeitsstufen</li>
+                        <li>Speichere den Highscore</li>
+                        <li>Füge Sound-Effekte hinzu</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 6: To-Do Liste</h3>
+                    <span class="difficulty difficulty-hard">Schwer</span>
+                </div>
+                <p class="example-description">Eine funktionale To-Do Listen App mit Hinzufügen, Löschen und Filtern von Aufgaben.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>CRUD-Operationen (Create, Read, Update, Delete)</li>
+                        <li>Array-Filter-Methoden</li>
+                        <li>Dynamisches Erstellen von HTML-Elementen</li>
+                        <li>Event-Delegation</li>
+                        <li>Zustandsverwaltung (State Management)</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>// Neues To-Do hinzufügen
+const todo = {
+    id: Date.now(),
+    text: text,
+    completed: false
+};
+todos.push(todo);
+
+// Filtern
+const activeTodos = todos.filter(t => !t.completed);</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Füge Prioritäten hinzu (Hoch, Mittel, Niedrig)</li>
+                        <li>Implementiere Fälligkeitsdaten</li>
+                        <li>Füge Kategorien/Tags hinzu</li>
+                        <li>Speichere Daten im localStorage</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel 7: Taschenrechner</h3>
+                    <span class="difficulty difficulty-hard">Schwer</span>
+                </div>
+                <p class="example-description">Ein funktionaler Taschenrechner mit Grundrechenarten und Verlauf.</p>
+                
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>String-Manipulation</li>
+                        <li>Math-Operationen</li>
+                        <li>Keyboard-Events</li>
+                        <li>Try-Catch für Fehlerbehandlung</li>
+                        <li>Array-Methoden (unshift, pop, map, join)</li>
+                    </ul>
+                </div>
+                
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>function calculate() {
+    try {
+        const result = eval(expression);
+        addToHistory(expression, result);
+        currentInput = result.toString();
+    } catch (error) {
+        currentInput = 'Error';
+    }
+}</pre>
+                </div>
+                
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Füge wissenschaftliche Funktionen hinzu (sin, cos, √)</li>
+                        <li>Implementiere Klammern-Unterstützung</li>
+                        <li>Füge Speicher-Funktionen hinzu (M+, M-, MR)</li>
+                        <li>Ändere das Design</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Debugging-Tipps</h2>
+            <p>Fehler sind normal und gehören zum Programmieren dazu. Hier sind einige Tipps zum Finden und Beheben von Fehlern:</p>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3>1. Browser-Console öffnen</h3>
+                    <p>Drücke F12 (oder Rechtsklick → Untersuchen). Die Console zeigt Fehler und Warnungen an.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>2. console.log() verwenden</h3>
+                    <p>Füge <code>console.log(variable)</code> ein, um Werte zu überprüfen und den Programmfluss zu verfolgen.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>3. Häufige Fehler</h3>
+                    <ul>
+                        <li>Vergessene Semikolons</li>
+                        <li>Nicht geschlossene Klammern</li>
+                        <li>Groß-/Kleinschreibung</li>
+                        <li>Nicht geschlossene Anführungszeichen</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-card">
+                    <h3>4. Google ist dein Freund</h3>
+                    <p>Kopiere die Fehlermeldung und google sie. Websites wie Stack Overflow haben meist die Antwort.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section cta-section">
+            <h2>Bereit für mehr Ressourcen?</h2>
+            <p>Entdecke nützliche Tools und Lernplattformen für deine Coding-Reise.</p>
+            <a href="ressourcen.html" class="btn btn-primary">Zu den Ressourcen</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Coding Workshop - Handelsakademie</p>
+        </div>
+    </footer>
+</body>
+</html>
