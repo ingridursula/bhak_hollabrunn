@@ -168,6 +168,46 @@
 
             <div class="example-card">
                 <div class="example-header">
+                    <h3>Beispiel: Analoguhr</h3>
+                    <span class="difficulty difficulty-medium">Mittel</span>
+                </div>
+                <p class="example-description">Eine analoge Uhr die mit CSS transform und einer einfachen Berechnung die Zeiger bewegt.</p>
+
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>Datum und Uhrzeit mit Date() abfragen</li>
+                        <li>Automatisches wiederholtes Aufrufen von Funktionen durch setInterval()</li>
+                        <li>Einfache mathematische Berechnung für die Zeigerwinkel</li>
+                        <li>CSS Transform</li>
+                    </ul>
+                </div>
+
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>
+document.getElementById('minuteHand').style.transform =
+    `rotate(${minuteAngle}deg)`;
+document.getElementById('hourHand').style.transform =
+    `rotate(${hourAngle}deg)`;
+</pre>
+                </div>
+
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Baue einen Sekundenzeiger</li>
+                        <li>Ergänze das Ziffernblatt</li>
+                        <li>Ändere die Farben der Zeiger</li>
+                        <li>Füge eine Alarm-Funktion hinzu (schwer)</li>
+                    </ul>
+                </div>
+
+                <a href="beispiele/analoge_uhr.html" class="btn btn-secondary">Zum Beispiel</a>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
                     <h3>Beispiel: Zitate-Generator</h3>
                     <span class="difficulty difficulty-medium">Mittel</span>
                 </div>
