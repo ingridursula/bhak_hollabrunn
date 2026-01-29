@@ -686,6 +686,19 @@ body {
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
+.btn-secondary {
+    background: #3498db;
+    color: white;
+    margin-top: 15px;
+    padding: 8px 21px;
+    border-radius: 4px;
+}
+
+.btn-secondary:hover {
+    background: #2980b9;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
 /* ===================================
    CTA SECTION
    =================================== */
