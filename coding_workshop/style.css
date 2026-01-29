@@ -547,6 +547,17 @@ body {
     font-family: 'Courier New', monospace;
 }
 
+.resource-url a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.resource-url a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
 .resource-features {
     margin-top: 15px;
 }
