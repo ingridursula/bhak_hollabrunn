@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Österreich Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .quiz-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .question h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            display: none;
+        }
+        
+        #reset-btn {
+            margin-top: 15px;
+            padding: 10px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        #reset-btn:hover {
+            background: #f0f4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🇦🇹 Österreich Quiz</h1>
+        
+        <!-- Frage 1 -->
+        <div class="question">
+            <h3>1. Was ist die Hauptstadt von Österreich?</h3>
+            <div class="options">
+                <div class="option" onclick="checkAnswer(this, true)">Wien</div>
+                <div class="option" onclick="checkAnswer(this, false)">Salzburg</div>
+                <div class="option" onclick="checkAnswer(this, false)">Graz</div>
+                <div class="option" onclick="checkAnswer(this, false)">Innsbruck</div>
+            </div>
+        </div>
+        
+        <!-- Frage 2 -->
+        <div class="question">
+            <h3>2. Wie viele Bundesländer hat Österreich?</h3>
+            <div class="options">
+                <div class="option" onclick="checkAnswer(this, false)">7</div>
+                <div class="option" onclick="checkAnswer(this, false)">8</div>
+                <div class="option" onclick="checkAnswer(this, true)">9</div>
+                <div class="option" onclick="checkAnswer(this, false)">10</div>
+            </div>
+        </div>
+        
+        <!-- Frage 3 -->
+        <div class="question">
+            <h3>3. Welcher Berg ist der höchste in Österreich?</h3>
+            <div class="options">
+                <div class="option" onclick="checkAnswer(this, false)">Zugspitze</div>
+                <div class="option" onclick="checkAnswer(this, true)">Großglockner</div>
+                <div class="option" onclick="checkAnswer(this, false)">Dachstein</div>
+                <div class="option" onclick="checkAnswer(this, false)">Matterhorn</div>
+            </div>
+        </div>
+        
+        <!-- Ergebnis -->
+        <div id="result">
+            <p id="score-text"></p>
+            <button id="reset-btn" onclick="resetQuiz()">Nochmal spielen</button>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript: Hier kommt die Programmierung
+        
+        let correctAnswers = 0;
+        let totalQuestions = 3;
+        let answeredQuestions = 0;
+        
+        function checkAnswer(element, isCorrect) {
+            // Prüfen ob schon geantwortet wurde
+            let questionDiv = element.parentElement.parentElement;
+            let options = questionDiv.querySelectorAll('.option');
+            
+            // Wenn bereits geantwortet, nichts tun
+            if (options[0].classList.contains('disabled')) {
+                return;
+            }
+            
+            // Alle Optionen deaktivieren
+            options.forEach(option => {
+                option.classList.add('disabled');
+            });
+            
+            // Antwort markieren
+            if (isCorrect) {
+                element.classList.add('correct');
+                correctAnswers++;
+            } else {
+                element.classList.add('wrong');
+                // Richtige Antwort grün markieren
+                options.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                    }
+                });
+            }
+            
+            // Anzahl beantworteter Fragen erhöhen
+            answeredQuestions++;
+            
+            // Wenn alle Fragen beantwortet, Ergebnis anzeigen
+            if (answeredQuestions === totalQuestions) {
+                showResult();
+            }
+        }
+        
+        function showResult() {
+            let percentage = (correctAnswers / totalQuestions) * 100;
+            let resultDiv = document.getElementById('result');
+            let scoreText = document.getElementById('score-text');
+            
+            // Ergebnis-Text erstellen
+            let message = '';
+            if (percentage === 100) {
+                message = '🎉 Perfekt! Alle Antworten richtig!';
+            } else if (percentage >= 66) {
+                message = '👍 Gut gemacht!';
+            } else {
+                message = '💪 Nächstes Mal klappt es besser!';
+            }
+            
+            scoreText.innerHTML = `${message}<br><br>Du hast ${correctAnswers} von ${totalQuestions} Fragen richtig beantwortet.`;
+            resultDiv.style.display = 'block';
+        }
+        
+        function resetQuiz() {
+            // Seite neu laden
+            location.reload();
+        }
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    JavaScript-Grundlagen:
+    
+    1. Variablen = Speicher für Daten
+       let correctAnswers = 0;  (Zahl)
+       let message = '';        (Text)
+    
+    2. Funktionen = Wiederverwendbarer Code
+       function checkAnswer() { ... }
+    
+    3. if/else = Entscheidungen treffen
+       if (isCorrect) {
+           // Tu das
+       } else {
+           // Tu das andere
+       }
+    
+    4. DOM-Manipulation = HTML ändern
+       element.classList.add('correct')  → Klasse hinzufügen
+       document.getElementById('result') → Element finden
+       resultDiv.style.display = 'block' → Sichtbar machen
+    
+    5. onclick = Wenn man draufklickt
+       <div onclick="checkAnswer(this, true)">
+
+    -->
+</body>
+</html>

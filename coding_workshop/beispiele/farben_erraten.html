@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farben erraten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .game-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .color-display {
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            transition: all 0.3s;
+        }
+        
+        .code-display {
+            text-align: center;
+            font-size: 32px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            height: 80px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .option:hover {
+            transform: scale(1.05);
+            border-color: #333;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            animation: pulse 0.5s;
+        }
+        
+        .option.wrong {
+            opacity: 0.3;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .score {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-new {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-new:hover {
+            background: #764ba2;
+        }
+        
+        .btn-mode {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-mode:hover {
+            background: #e9ecef;
+        }
+        
+        .feedback {
+            text-align: center;
+            font-size: 24px;
+            min-height: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎨 Farben erraten</h1>
+        <p class="subtitle">Welche Farbe gehört zum RGB-Code?</p>
+        
+        <div class="score">
+            <div class="score-item">
+                <div class="score-value" id="correct">0</div>
+                <div class="score-label">Richtig</div>
+            </div>
+            <div class="score-item">
+                <div class="score-value" id="total">0</div>
+                <div class="score-label">Versuche</div>
+            </div>
+            <div class="score-item">
+                <div class="score-value" id="streak">0</div>
+                <div class="score-label">Serie</div>
+            </div>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div class="code-display" id="colorCode"></div>
+        
+        <div class="options" id="options"></div>
+        
+        <div class="controls">
+            <button class="btn btn-new" onclick="newRound()">🎲 Neue Runde</button>
+            <button class="btn btn-mode" onclick="toggleMode()">
+                Modus: <span id="modeText">RGB</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let correctAnswer = '';
+        let correctCount = 0;
+        let totalCount = 0;
+        let currentStreak = 0;
+        let gameMode = 'rgb'; // 'rgb' oder 'hex'
+        let answered = false;
+        
+        // Zufällige RGB-Farbe generieren
+        function randomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return { r, g, b };
+        }
+        
+        // RGB zu Hex konvertieren
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+        
+        // Farbe als String zurückgeben
+        function colorToString(color) {
+            return `rgb(${color.r}, ${color.g}, ${color.b})`;
+        }
+        
+        // Neue Runde starten
+        function newRound() {
+            answered = false;
+            
+            // Richtige Farbe generieren
+            const correctColor = randomColor();
+            correctAnswer = colorToString(correctColor);
+            
+            // Falsche Farben generieren
+            const colors = [correctColor];
+            while (colors.length < 6) {
+                const newColor = randomColor();
+                const newColorString = colorToString(newColor);
+                if (!colors.some(c => colorToString(c) === newColorString)) {
+                    colors.push(newColor);
+                }
+            }
+            
+            // Farben mischen
+            colors.sort(() => Math.random() - 0.5);
+            
+            // Optionen anzeigen
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            colors.forEach(color => {
+                const option = document.createElement('div');
+                option.className = 'option';
+                option.style.background = colorToString(color);
+                option.onclick = () => checkAnswer(colorToString(color), option);
+                optionsDiv.appendChild(option);
+            });
+            
+            // Code anzeigen
+            const codeDisplay = document.getElementById('colorCode');
+            if (gameMode === 'rgb') {
+                codeDisplay.textContent = `rgb(${correctColor.r}, ${correctColor.g}, ${correctColor.b})`;
+            } else {
+                codeDisplay.textContent = rgbToHex(correctColor.r, correctColor.g, correctColor.b).toUpperCase();
+            }
+            
+            // Feedback zurücksetzen
+            document.getElementById('feedback').textContent = '';
+        }
+        
+        // Antwort prüfen
+        function checkAnswer(selectedColor, element) {
+            if (answered) return;
+            
+            answered = true;
+            totalCount++;
+            
+            // Alle Optionen deaktivieren
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.style.cursor = 'default';
+            });
+            
+            if (selectedColor === correctAnswer) {
+                element.classList.add('correct');
+                correctCount++;
+                currentStreak++;
+                
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = '✅ Richtig!';
+                feedback.style.color = '#28a745';
+                
+                setTimeout(newRound, 1500);
+            } else {
+                element.classList.add('wrong');
+                currentStreak = 0;
+                
+                // Richtige Antwort markieren
+                document.querySelectorAll('.option').forEach(opt => {
+                    if (opt.style.background === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+                
+                const feedback = document.getElementById('feedback');
+                feedback.textContent = '❌ Falsch!';
+                feedback.style.color = '#dc3545';
+            }
+            
+            updateScore();
+        }
+        
+        // Score aktualisieren
+        function updateScore() {
+            document.getElementById('correct').textContent = correctCount;
+            document.getElementById('total').textContent = totalCount;
+            document.getElementById('streak').textContent = currentStreak;
+        }
+        
+        // Modus wechseln
+        function toggleMode() {
+            gameMode = gameMode === 'rgb' ? 'hex' : 'rgb';
+            document.getElementById('modeText').textContent = gameMode.toUpperCase();
+            newRound();
+        }
+        
+        // Beim Laden starten
+        newRound();
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    Neue JavaScript-Konzepte:
+    
+    1. RGB-Farben:
+       - Rot, Grün, Blau (jeweils 0-255)
+       - rgb(255, 0, 0) = Rot
+       - rgb(0, 255, 0) = Grün
+       - rgb(0, 0, 255) = Blau
+    
+    2. Hexadezimal-Farben:
+       - #FF0000 = Rot
+       - toString(16) = In Hex konvertieren
+       - map() = Array transformieren
+    
+    3. Array-Methoden:
+       - some() = Prüfen ob mindestens ein Element passt
+       - sort() = Sortieren/Mischen
+    
+    4. Template Literals:
+       `rgb(${r}, ${g}, ${b})`
+    
+    5. Ternärer Operator:
+       gameMode === 'rgb' ? 'hex' : 'rgb'
+       (Wenn-Dann-Sonst in einer Zeile)
+    
+    Aufgaben für Schüler:
+    - Schwierigkeitsgrade (mehr/weniger Optionen)
+    - Timer hinzufügen
+    - Highscore speichern
+    - Farbnamen-Modus (z.B. "Red", "Blue")
+    - Farbmisch-Quiz (Welche Farbe ergibt Rot + Blau?)
+    - Sound-Effekte
+    -->
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Spiel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .game-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid #667eea;
+        }
+        
+        .memory-card.matched {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            cursor: default;
+        }
+        
+        .memory-card .back {
+            display: block;
+            color: white;
+            font-size: 30px;
+        }
+        
+        .memory-card .front {
+            display: none;
+        }
+        
+        .memory-card.flipped .back {
+            display: none;
+        }
+        
+        .memory-card.flipped .front {
+            display: block;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background: #764ba2;
+        }
+        
+        .win-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #d4edda;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #155724;
+        }
+        
+        .win-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎮 Memory Spiel</h1>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="moves">0</div>
+                <div class="stat-label">Züge</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="matches">0</div>
+                <div class="stat-label">Paare</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="timer">0:00</div>
+                <div class="stat-label">Zeit</div>
+            </div>
+        </div>
+        
+        <div class="win-message" id="winMessage">
+            <h2>🎉 Gewonnen!</h2>
+            <p id="winStats"></p>
+        </div>
+        
+        <div class="memory-grid" id="gameGrid"></div>
+        
+        <button class="reset-btn" onclick="resetGame()">Neues Spiel</button>
+    </div>
+    
+    <script>
+        // Emojis für das Memory-Spiel
+        const emojis = ['🎮', '🎨', '🎭', '🎪', '🎸', '🎯', '🎲', '🎰'];
+        
+        // Spiel-Variablen
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let seconds = 0;
+        let timerInterval = null;
+        let gameStarted = false;
+        
+        // Spiel initialisieren
+        function initGame() {
+            // Karten erstellen (jedes Emoji 2x)
+            cards = [...emojis, ...emojis];
+            
+            // Karten mischen
+            cards = cards.sort(() => Math.random() - 0.5);
+            
+            // Karten im HTML erstellen
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.innerHTML = `
+                    <span class="back">❓</span>
+                    <span class="front">${emoji}</span>
+                `;
+                card.onclick = () => flipCard(card, index);
+                grid.appendChild(card);
+            });
+            
+            // Stats zurücksetzen
+            matchedPairs = 0;
+            moves = 0;
+            seconds = 0;
+            flippedCards = [];
+            gameStarted = false;
+            
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('matches').textContent = '0';
+            document.getElementById('timer').textContent = '0:00';
+            document.getElementById('winMessage').classList.remove('show');
+            
+            // Timer stoppen
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        }
+        
+        // Karte umdrehen
+        function flipCard(card, index) {
+            // Spiel starten beim ersten Klick
+            if (!gameStarted) {
+                startTimer();
+                gameStarted = true;
+            }
+            
+            // Nicht klickbar wenn schon 2 Karten offen oder bereits gematched
+            if (flippedCards.length === 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+            
+            // Karte umdrehen
+            card.classList.add('flipped');
+            flippedCards.push({ card, index });
+            
+            // Wenn 2 Karten offen
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                
+                setTimeout(checkMatch, 800);
+            }
+        }
+        
+        // Prüfen ob Karten übereinstimmen
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            
+            // Wenn gleich
+            if (cards[first.index] === cards[second.index]) {
+                first.card.classList.add('matched');
+                second.card.classList.add('matched');
+                matchedPairs++;
+                document.getElementById('matches').textContent = matchedPairs;
+                
+                // Alle Paare gefunden?
+                if (matchedPairs === emojis.length) {
+                    setTimeout(showWin, 500);
+                }
+            } else {
+                // Karten wieder umdrehen
+                first.card.classList.remove('flipped');
+                second.card.classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+        
+        // Timer starten
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('timer').textContent = 
+                    `${mins}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        // Gewinn-Nachricht anzeigen
+        function showWin() {
+            clearInterval(timerInterval);
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            const time = `${mins}:${secs.toString().padStart(2, '0')}`;
+            
+            document.getElementById('winStats').textContent = 
+                `Du hast alle Paare in ${moves} Zügen und ${time} Minuten gefunden!`;
+            document.getElementById('winMessage').classList.add('show');
+        }
+        
+        // Spiel zurücksetzen
+        function resetGame() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            initGame();
+        }
+        
+        // Spiel beim Laden starten
+        initGame();
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    JavaScript-Konzepte in diesem Spiel:
+    
+    1. Arrays = Listen von Daten
+       const emojis = ['🎮', '🎨', '🎭'];
+    
+    2. Spread-Operator = Kopieren und Verdoppeln
+       [...emojis, ...emojis]  → Jedes Emoji 2x
+    
+    3. Array-Methoden:
+       - sort() = Sortieren/Mischen
+       - forEach() = Über jedes Element iterieren
+    
+    4. setTimeout() = Verzögerte Ausführung
+       setTimeout(checkMatch, 800)  → Nach 0,8 Sekunden
+    
+    5. setInterval() = Wiederholte Ausführung
+       setInterval(() => { ... }, 1000)  → Jede Sekunde
+    
+    6. DOM-Manipulation:
+       - createElement() = Neues Element erstellen
+       - appendChild() = Element hinzufügen
+       - classList.add/remove = Klassen verwalten
+    
+    7. Event-Handling:
+       card.onclick = () => flipCard(card, index)
+    -->
+</body>
+</html>

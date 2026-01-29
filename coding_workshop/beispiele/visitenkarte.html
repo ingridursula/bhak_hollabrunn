@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Visitenkarte</title>
+    <style>
+        /* CSS: Hier kommt das Design */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+        
+        h1 {
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        .job-title {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .social-links {
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML: Hier kommt der Inhalt -->
+    <div class="card">
+        <div class="avatar">👨‍💻</div>
+        <h1>Max Mustermann</h1>
+        <p class="job-title">Web-Entwickler</p>
+        <div class="contact-info">
+            <p>📧 max@beispiel.at</p>
+            <p>📱 +43 123 456 789</p>
+            <p>📍 Wien, Österreich</p>
+        </div>
+        <div class="social-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+        </div>
+    </div>
+</body>
+</html>

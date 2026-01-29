@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taschenrechner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .calculator {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 320px;
+        }
+        
+        .display {
+            background: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 32px;
+            min-height: 60px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-number {
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .btn-number:hover {
+            background: #e9ecef;
+        }
+        
+        .btn-operator {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-operator:hover {
+            background: #764ba2;
+        }
+        
+        .btn-equals {
+            background: #28a745;
+            color: white;
+            grid-column: span 2;
+        }
+        
+        .btn-equals:hover {
+            background: #218838;
+        }
+        
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #c82333;
+        }
+        
+        .btn-zero {
+            grid-column: span 2;
+        }
+        
+        .history {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .history-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .history-item {
+            font-size: 14px;
+            color: #333;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        
+        <div class="buttons">
+            <button class="btn-clear" onclick="clearDisplay()">C</button>
+            <button class="btn-operator" onclick="deleteLast()">⌫</button>
+            <button class="btn-operator" onclick="appendOperator('%')">%</button>
+            <button class="btn-operator" onclick="appendOperator('/')">÷</button>
+            
+            <button class="btn-number" onclick="appendNumber('7')">7</button>
+            <button class="btn-number" onclick="appendNumber('8')">8</button>
+            <button class="btn-number" onclick="appendNumber('9')">9</button>
+            <button class="btn-operator" onclick="appendOperator('*')">×</button>
+            
+            <button class="btn-number" onclick="appendNumber('4')">4</button>
+            <button class="btn-number" onclick="appendNumber('5')">5</button>
+            <button class="btn-number" onclick="appendNumber('6')">6</button>
+            <button class="btn-operator" onclick="appendOperator('-')">−</button>
+            
+            <button class="btn-number" onclick="appendNumber('1')">1</button>
+            <button class="btn-number" onclick="appendNumber('2')">2</button>
+            <button class="btn-number" onclick="appendNumber('3')">3</button>
+            <button class="btn-operator" onclick="appendOperator('+')">+</button>
+            
+            <button class="btn-number btn-zero" onclick="appendNumber('0')">0</button>
+            <button class="btn-number" onclick="appendNumber('.')">.</button>
+            <button class="btn-equals" onclick="calculate()">=</button>
+        </div>
+        
+        <div class="history">
+            <div class="history-title">📜 Verlauf</div>
+            <div id="historyList"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentInput = '0';
+        let history = [];
+        
+        // Display aktualisieren
+        function updateDisplay() {
+            document.getElementById('display').textContent = currentInput;
+        }
+        
+        // Zahl hinzufügen
+        function appendNumber(number) {
+            if (currentInput === '0' || currentInput === 'Error') {
+                currentInput = number;
+            } else {
+                currentInput += number;
+            }
+            updateDisplay();
+        }
+        
+        // Operator hinzufügen
+        function appendOperator(operator) {
+            if (currentInput === 'Error') {
+                currentInput = '0';
+            }
+            
+            const lastChar = currentInput[currentInput.length - 1];
+            
+            // Verhindere mehrere Operatoren hintereinander
+            if (['+', '-', '*', '/', '%'].includes(lastChar)) {
+                currentInput = currentInput.slice(0, -1) + operator;
+            } else {
+                currentInput += operator;
+            }
+            
+            updateDisplay();
+        }
+        
+        // Berechnen
+        function calculate() {
+            try {
+                const expression = currentInput;
+                
+                // Ersetze × und ÷ durch * und /
+                let evalExpression = expression
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/−/g, '-');
+                
+                // Berechne mit eval (Vorsicht: In echten Apps besser vermeiden!)
+                const result = eval(evalExpression);
+                
+                // Runde auf 8 Dezimalstellen
+                const roundedResult = Math.round(result * 100000000) / 100000000;
+                
+                // Zum Verlauf hinzufügen
+                addToHistory(expression, roundedResult);
+                
+                currentInput = roundedResult.toString();
+            } catch (error) {
+                currentInput = 'Error';
+            }
+            
+            updateDisplay();
+        }
+        
+        // Display löschen
+        function clearDisplay() {
+            currentInput = '0';
+            updateDisplay();
+        }
+        
+        // Letztes Zeichen löschen
+        function deleteLast() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+        
+        // Zum Verlauf hinzufügen
+        function addToHistory(expression, result) {
+            history.unshift(`${expression} = ${result}`);
+            
+            // Nur die letzten 10 Berechnungen behalten
+            if (history.length > 10) {
+                history.pop();
+            }
+            
+            updateHistory();
+        }
+        
+        // Verlauf anzeigen
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div style="color: #999; font-size: 12px;">Noch keine Berechnungen</div>';
+            } else {
+                historyList.innerHTML = history
+                    .map(item => `<div class="history-item">${item}</div>`)
+                    .join('');
+            }
+        }
+        
+        // Tastatur-Unterstützung
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            
+            // Zahlen
+            if (key >= '0' && key <= '9') {
+                appendNumber(key);
+            }
+            // Operatoren
+            else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                appendOperator(key);
+            }
+            // Punkt
+            else if (key === '.' || key === ',') {
+                appendNumber('.');
+            }
+            // Enter oder = für Berechnung
+            else if (key === 'Enter' || key === '=') {
+                event.preventDefault();
+                calculate();
+            }
+            // Backspace
+            else if (key === 'Backspace') {
+                deleteLast();
+            }
+            // Escape für Clear
+            else if (key === 'Escape') {
+                clearDisplay();
+            }
+        });
+        
+        // Verlauf beim Laden initialisieren
+        updateHistory();
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    JavaScript-Konzepte:
+    
+    1. String-Manipulation:
+       - slice(0, -1) = Letztes Zeichen entfernen
+       - replace() = Text ersetzen
+       - += = Text anhängen
+    
+    2. eval() = Code ausführen
+       WICHTIG: eval() ist in echten Apps GEFÄHRLICH!
+       Hier OK, weil wir die Eingabe kontrollieren.
+       
+       Bessere Alternative für echte Apps:
+       - Eigene Parse-Funktion schreiben
+       - Bibliothek wie math.js verwenden
+    
+    3. Array-Methoden:
+       - unshift() = Am Anfang hinzufügen
+       - pop() = Letztes Element entfernen
+       - map() = Array transformieren
+       - join() = Array zu String
+    
+    4. try/catch = Fehlerbehandlung
+       try {
+           // Code der fehlschlagen könnte
+       } catch (error) {
+           // Was tun bei Fehler
+       }
+    
+    5. Keyboard Events:
+       document.addEventListener('keydown', function(event) {
+           // Tastatur-Eingabe verarbeiten
+       });
+    
+    6. Math-Objekt:
+       Math.round() = Runden
+
+    -->
+</body>
+</html>

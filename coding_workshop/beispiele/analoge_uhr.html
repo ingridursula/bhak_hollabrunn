@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analoge Uhr</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .clock-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .clock {
+            width: 300px;
+            height: 300px;
+            border: 8px solid #333;
+            border-radius: 50%;
+            position: relative;
+            background: white;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1),
+                        0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Mittelpunkt der Uhr */
+        .clock::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        /* Zahlen auf dem Ziffernblatt */
+        .clock-12 {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .clock-3 {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .clock-6 {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .clock-9 {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Zeiger */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            background: #333;
+            border-radius: 10px;
+        }
+        
+        .hour-hand {
+            width: 8px;
+            height: 70px;
+            background: #333;
+            margin-left: -4px;
+            z-index: 3;
+        }
+        
+        .minute-hand {
+            width: 5px;
+            height: 100px;
+            background: #666;
+            margin-left: -2.5px;
+            z-index: 2;
+        }
+        
+        /* Digitale Zeit-Anzeige */
+        .digital-time {
+            margin-top: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+        
+        .date-display {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        /* Info-Box */
+        .info-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            max-width: 600px;
+        }
+        
+        .info-box h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .info-box p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .info-box code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <h1>Analoge Uhr</h1>
+        
+        <div class="clock" id="clock">
+            <!-- Nur die 4 Hauptzahlen -->
+            <div class="clock-12">12</div>
+            <div class="clock-3">3</div>
+            <div class="clock-6">6</div>
+            <div class="clock-9">9</div>
+            
+            <!-- Zeiger (ohne Sekunden) -->
+            <div class="hand hour-hand" id="hourHand"></div>
+            <div class="hand minute-hand" id="minuteHand"></div>
+        </div>
+        
+        <div class="digital-time" id="digitalTime">00:00</div>
+        <div class="date-display" id="dateDisplay"></div>
+    </div>
+    
+    <div class="info-box">
+        <h2>Wie funktioniert diese Uhr?</h2>
+        <p><strong>JavaScript-Konzepte:</strong></p>
+        <ul>
+            <li><code>new Date()</code> - Holt die aktuelle Zeit</li>
+            <li><code>setInterval()</code> - Aktualisiert die Uhr jede Sekunde</li>
+            <li><code>CSS: transform: rotate()</code> - Dreht die Zeiger</li>
+            <li>Mathematische Berechnungen für Winkel (360° / 60 Sekunden = 6° pro Sekunde)</li>
+        </ul>
+
+
+    </div>
+    
+    <script>
+        // Uhr aktualisieren
+        function updateClock() {
+            const now = new Date();
+            
+            // Aktuelle Zeit abrufen
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // Winkel berechnen
+            // Minutenzeiger: 360° / 60 Minuten = 6° pro Minute
+            // Plus Anteil der Sekunden für sanfte Bewegung
+            const minuteAngle = minutes * 6 + seconds * 0.1;
+            
+            // Stundenzeiger: 360° / 12 Stunden = 30° pro Stunde
+            // Plus Anteil der Minuten für sanfte Bewegung
+            const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+            
+            // Zeiger drehen
+            document.getElementById('minuteHand').style.transform = 
+                `rotate(${minuteAngle}deg)`;
+            document.getElementById('hourHand').style.transform = 
+                `rotate(${hourAngle}deg)`;
+            
+            // Digitale Zeit aktualisieren (ohne Sekunden)
+            const timeString = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            document.getElementById('digitalTime').textContent = timeString;
+            
+            // Datum aktualisieren
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('de-DE', options);
+            document.getElementById('dateDisplay').textContent = dateString;
+        }
+        
+        // Beim Laden der Seite
+        updateClock();
+        
+        // Jede Sekunde aktualisieren
+        setInterval(updateClock, 1000);
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    JavaScript-Konzepte:
+    
+    1. Date-Objekt:
+       const now = new Date();
+       now.getHours()   → Stunden (0-23)
+       now.getMinutes() → Minuten (0-59)
+    
+    2. Mathematik für Uhren:
+       - Kreis hat 360°
+       - 60 Minuten = 360° → 1 Minute = 6°
+       - 12 Stunden = 360° → 1 Stunde = 30°
+    
+    3. String-Methoden:
+       String(5).padStart(2, '0') → "05"
+       (Füllt Zahlen mit 0 auf, damit "5" zu "05" wird)
+    
+    4. CSS transform: rotate()
+       Dreht die Zeiger um den berechneten Winkel
+    
+    5. setInterval():
+       Führt eine Funktion regelmäßig aus
+       setInterval(updateClock, 1000) → Jede Sekunde
+    
+    Wichtige CSS-Konzepte:
+    
+    1. transform: rotate(45deg)
+       Dreht ein Element um X Grad
+    
+    2. transform-origin: bottom center
+       Legt fest, um welchen Punkt gedreht wird
+       (Zeiger drehen sich um ihr unteres Ende)
+    
+    3. position: absolute
+       Positioniert Elemente frei im Container
+    
+    4. border-radius: 50%
+       Macht aus einem Quadrat einen Kreis
+
+
+</body>
+</html>

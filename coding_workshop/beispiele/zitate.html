@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivations-Zitate</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .quote-container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .quote-mark {
+            font-size: 60px;
+            color: #667eea;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+        
+        .quote-text {
+            font-size: 24px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .quote-author {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .new-quote-btn {
+            padding: 15px 40px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .new-quote-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+        
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 8px 20px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .category-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="quote-container">
+        <div class="quote-mark">"</div>
+        
+        <div class="category-buttons">
+            <button class="category-btn active" onclick="changeCategory('motivation')">💪 Motivation</button>
+            <button class="category-btn" onclick="changeCategory('erfolg')">🎯 Erfolg</button>
+            <button class="category-btn" onclick="changeCategory('leben')">🌟 Leben</button>
+        </div>
+        
+        <div class="quote-text" id="quoteText"></div>
+        <div class="quote-author" id="quoteAuthor"></div>
+        
+        <button class="new-quote-btn" onclick="showRandomQuote()">
+            🎲 Neues Zitat
+        </button>
+    </div>
+    
+    <script>
+        // Zitate-Datenbank
+        const quotes = {
+            motivation: [
+                { text: "Der einzige Weg, großartige Arbeit zu leisten, ist zu lieben, was du tust.", author: "Steve Jobs" },
+                { text: "Glaube an dich selbst und alles ist möglich.", author: "Unbekannt" },
+                { text: "Erfolg ist nicht endgültig, Misserfolg ist nicht fatal: Es ist der Mut weiterzumachen, der zählt.", author: "Winston Churchill" },
+                { text: "Die Zukunft gehört denen, die an die Schönheit ihrer Träume glauben.", author: "Eleanor Roosevelt" },
+                { text: "Dein einziges Limit bist du selbst.", author: "Unbekannt" }
+            ],
+            erfolg: [
+                { text: "Erfolg hat drei Buchstaben: TUN!", author: "Johann Wolfgang von Goethe" },
+                { text: "Der Weg zum Erfolg ist immer im Bau.", author: "Lily Tomlin" },
+                { text: "Erfolg ist die Summe kleiner Bemühungen, die Tag für Tag wiederholt werden.", author: "Robert Collier" },
+                { text: "Man muss das Unmögliche versuchen, um das Mögliche zu erreichen.", author: "Hermann Hesse" },
+                { text: "Erfolg besteht darin, dass man genau die Fähigkeiten hat, die im Moment gefragt sind.", author: "Henry Ford" }
+            ],
+            leben: [
+                { text: "Das Leben ist das, was passiert, während du eifrig dabei bist, andere Pläne zu machen.", author: "John Lennon" },
+                { text: "Lebe das Leben, das du dir vorstellst.", author: "Henry David Thoreau" },
+                { text: "Das Geheimnis des Glücks liegt nicht im Besitz, sondern im Geben.", author: "André Gide" },
+                { text: "Genieße das Leben ständig, denn du bist länger tot als lebendig.", author: "Schottisches Sprichwort" },
+                { text: "Das Leben ist zu kurz, um schlechten Wein zu trinken.", author: "Johann Wolfgang von Goethe" }
+            ]
+        };
+        
+        let currentCategory = 'motivation';
+        let lastQuoteIndex = -1;
+        
+        // Zufälliges Zitat anzeigen
+        function showRandomQuote() {
+            const categoryQuotes = quotes[currentCategory];
+            let randomIndex;
+            
+            // Verhindere, dass dasselbe Zitat zweimal hintereinander kommt
+            do {
+                randomIndex = Math.floor(Math.random() * categoryQuotes.length);
+            } while (randomIndex === lastQuoteIndex && categoryQuotes.length > 1);
+            
+            lastQuoteIndex = randomIndex;
+            const quote = categoryQuotes[randomIndex];
+            
+            // Animierter Übergang
+            const quoteText = document.getElementById('quoteText');
+            const quoteAuthor = document.getElementById('quoteAuthor');
+            
+            quoteText.style.opacity = '0';
+            quoteAuthor.style.opacity = '0';
+            
+            setTimeout(() => {
+                quoteText.textContent = quote.text;
+                quoteAuthor.textContent = '— ' + quote.author;
+                quoteText.style.transition = 'opacity 0.5s';
+                quoteAuthor.style.transition = 'opacity 0.5s';
+                quoteText.style.opacity = '1';
+                quoteAuthor.style.opacity = '1';
+            }, 300);
+        }
+        
+        // Kategorie wechseln
+        function changeCategory(category) {
+            currentCategory = category;
+            lastQuoteIndex = -1;
+            
+            // Aktiven Button aktualisieren
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Neues Zitat anzeigen
+            showRandomQuote();
+        }
+        
+        // Beim Laden erstes Zitat anzeigen
+        showRandomQuote();
+    </script>
+    
+    <!-- ERKLÄRUNG FÜR SCHÜLER:
+    
+    JavaScript-Konzepte:
+    
+    1. Objekt mit Arrays:
+       const quotes = {
+           motivation: [...],
+           erfolg: [...]
+       };
+    
+    2. Math.random():
+       - Math.random() = Zufallszahl zwischen 0 und 1
+       - Math.floor() = Abrunden
+       - Kombiniert: Zufälliger Array-Index
+    
+    3. do-while Schleife:
+       do {
+           // Mindestens einmal ausführen
+       } while (Bedingung);
+    
+    4. setTimeout() = Verzögerung
+       setTimeout(() => { ... }, 300)  → Nach 0,3 Sekunden
+    
+    5. CSS-Transitions mit JavaScript:
+       element.style.opacity = '0'
+       element.style.transition = 'opacity 0.5s'
+
+    -->
+</body>
+</html>
