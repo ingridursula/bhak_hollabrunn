@@ -27,6 +27,56 @@
         </section>
 
         <section class="content-section">
+            <h2>Live Beispiel</h2>
+            <p>Wichtige JavaScript Konzepte gemeinsam besprechen und anpassen.</p>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <h3>Beispiel: Catch the Square</h3>
+                    <span class="difficulty difficulty-medium">Mittel</span>
+                </div>
+                <p class="example-description">Ein einfaches Spiel bei dem man versuchen muss mit der Maus ein schneller werdendes Element zu fangen.</p>
+
+                <div class="example-features">
+                    <h4>Was du lernst:</h4>
+                    <ul>
+                        <li>HTML-Grundstruktur (div, h1, p)</li>
+                        <li>Einfache CSS Positionierung</li>
+                        <li>HTML Elemente in JavaScript auswählen mit document.getElementById()</li>
+                        <li>Zeitverzögerung mit setTimeout()</li>
+                        <li>Auf User-Interaktion reagieren mit EventListener</li>
+                    </ul>
+                </div>
+
+                <div class="example-code">
+                    <h4>Kern-Code:</h4>
+                    <pre>
+square.addEventListener("mouseover", () => {
+  score++;
+  scoreDisplay.textContent = score;
+  speed = Math.max(100, speed - 100); // Spiel wird schneller
+  moveSquare();
+});
+                    </pre>
+                </div>
+
+                <div class="example-tasks">
+                    <h4>Aufgaben zum Experimentieren:</h4>
+                    <ul>
+                        <li>Ändere das zu fangende Objekt</li>
+                        <li>Reagiere auf ein anderes Event (zum Beispiel auf "click")</li>
+                        <li>Ändere den Mauscursor</li>
+                        <li>Passe die Bewegung an</li>
+                        <li>....</li>
+                    </ul>
+                </div>
+
+                <a href="https://codepen.io/gridel/pen/PwobVWK" target="_blank" class="btn btn-secondary">Zum Beispiel</a>
+            </div>
+
+        </section>
+
+        <section class="content-section">
             <h2>Einfache Beispiele</h2>
             <p>Diese Beispiele sind perfekt für den Einstieg. Sie zeigen grundlegende Konzepte, die leicht zu verstehen sind.</p>
             
